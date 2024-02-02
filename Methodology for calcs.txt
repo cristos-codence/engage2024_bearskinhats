@@ -1,0 +1,19 @@
+Let (
+[  
+// if any check failed, return all the checks that failed
+$listOfFailedChecks = List (
+    If ( IsEmpty ( $param1 ) ; "Check 1 failed" )
+    ; If ( IsEmpty ( $param2 ) ; "Check 2 failed" )
+)
+
+// if all checks pass, do the thing
+Case (
+    Length ( $listOfFailedChecks)
+    ; //list failed checks
+/** ELSE **/
+;   // Do the expensive calculation
+    "All checks passed"
+)
+
+]
+)

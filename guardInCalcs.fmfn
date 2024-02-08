@@ -1,0 +1,31 @@
+Case 
+(   // Fastest checks go towards the top
+    IsEmpty ( $parameter )   // 💂‍♂️
+    ;   "? - Error: parameter is empty"
+
+;   Left ( JSONFormatElements ( $parameter ) ; 1 ) = "?"    // 💂‍♂️
+;       "? - Error: parameter is not valid JSON"
+
+;   Let ( [ ~md5 = GetContainerAttribute ( $parameter ; "Md5" )]
+        ; PatternCount ( ~md5 ; $listOtherMd5Hashes ) > 0   // 💂‍♂️
+        )  
+;       "? - Error: parameter occurs multiple times in the set"
+
+
+    // Slower checks go at the bottom
+;   not Exact ( $parameter ; "TABLE::Field" )   // 💂‍♂️
+;       "? - Error: parameter does not match database value"
+
+;   Exact ( $parameter ; "TABLE::Field" )       // 💂‍♂️
+    and Exact ( $parameter ; "RelatedTable::Field" )
+
+
+;   // ELSE (main logic)
+        Let 
+        (   // Load data for calc here
+        [   ~fieldData = "TABLE::Field"
+        ;   ~relatedFieldData = "RelatedTable::Field"
+        ]
+        ;   $parameter & ~fieldData & ~relatedFieldData
+        )
+)
